@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('posts.posts', [
-        'posts' => Post::latest()->with(['category', 'author'])->get()
+        'posts' => Post::latest()->with(['category', 'author'])->get(),
+        'categories' => Category::all()
     ]);
 });
 
@@ -29,14 +30,16 @@ Route::get('/posts/{post}', function (Post $post) {
 });
 
 Route::get('/categories/{category}', function (Category $category) {
-    return view('categories.category', [
-        'category' => $category,
+    return view('posts.posts', [
+        'currentCategory' => $category,
+        'categories' => Category::all(),
         'posts' => $category->posts
     ]);
 });
 
 Route::get('/authors/{author}', function (User $author) {
     return view('posts.posts', [
-        'posts' => $author->posts
+        'posts' => $author->posts,
+        'categories' => Category::all()
     ]);
 });
