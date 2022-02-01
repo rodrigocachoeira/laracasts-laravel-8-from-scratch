@@ -48,6 +48,17 @@
                         {!! $post->body !!}
                     </div>
                 </div>
+
+                <section class="col-span-8 col-start-5 mt-10 space-y-5" >
+
+                    @include('posts._add-comment-form')
+                    
+                    @foreach ($post->comments as $comment)
+                        <x-post-comment :comment="$comment" ></x-post-comment>
+                    @endforeach
+
+                </section>
+
             </article>
         </main>
 
