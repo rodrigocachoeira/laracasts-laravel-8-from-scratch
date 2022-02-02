@@ -10,6 +10,8 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
+        'slug',
+        'thumbnail',
         'user_id',
         'category_id',
         'title',
@@ -53,11 +55,6 @@ class Post extends Model
         $query->when($filters['author'] ?? false, fn ($query, $author) => 
             $query->whereHas('author', fn ($query) => $query->where('username', $author))
         );
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
 }

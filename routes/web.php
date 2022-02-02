@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PostController;
@@ -21,8 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('newsletter', NewsletterController::class);
 
 Route::get('/', [PostController::class, 'index']);
-Route::get('/posts/{post}', [PostController::class, 'show']);
-Route::post('posts/{post}/comments', [CommentController::class, 'store'])->middleware('auth');
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::post('posts/{post:slug}/comments', [CommentController::class, 'store'])->middleware('auth');
 
 Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
@@ -30,3 +31,5 @@ Route::post('register', [RegisterController::class, 'store'])->middleware('guest
 Route::post('logout', [SessionController::class, 'destroy'])->middleware('auth');
 Route::get('login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('sessions', [SessionController::class, 'store'])->middleware('guest');
+
+Route::resource('admin/posts', AdminPostController::class)->except('show')->middleware('can:admin');
